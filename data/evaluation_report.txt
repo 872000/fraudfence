@@ -1,0 +1,13 @@
+FraudFence evaluation report
+===========================
+Train size: 4366   Test size: 1871   Fraud in test: 70
+Risk threshold: 50
+
+True positives : 43
+False positives: 51
+False negatives: 27
+True negatives : 1750
+
+Precision: 0.457
+Recall   : 0.614
+F1 score : 0.524

@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Data artifacts (regenerable / local state)
+*.db
+*.db-journal
+data/model.pkl
+data/scored.csv
+data/transactions.csv
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
