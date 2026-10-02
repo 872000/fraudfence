@@ -120,3 +120,10 @@ def test_model_save_load_round_trip(tmp_path, txns):
     s1 = detector.score_dataframe(df, model)["risk_score"].to_numpy()
     s2 = detector.score_dataframe(df, loaded)["risk_score"].to_numpy()
     assert (s1 == s2).all()
+
+
+def test_list_cases_rejects_bad_status(tmp_path):
+    conn = review_store.connect(tmp_path / "cases.db")
+    with pytest.raises(ValueError, match="open.*fraud.*legit"):
+        review_store.list_cases(conn, status="opne")
+    conn.close()

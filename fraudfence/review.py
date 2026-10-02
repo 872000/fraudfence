@@ -51,6 +51,8 @@ def upsert_cases(conn: sqlite3.Connection, scored) -> int:
 
 def list_cases(conn: sqlite3.Connection, status: str | None = None,
                limit: int = 25) -> list[dict]:
+    if status is not None and status not in ("open", "fraud", "legit"):
+        raise ValueError("status must be one of 'open', 'fraud', 'legit'")
     q = "SELECT * FROM cases"
     params: list = []
     if status:
