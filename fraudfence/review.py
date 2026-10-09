@@ -52,7 +52,7 @@ def upsert_cases(conn: sqlite3.Connection, scored) -> int:
 def list_cases(conn: sqlite3.Connection, status: str | None = None,
                limit: int = 25) -> list[dict]:
     if status is not None and status not in ("open", "fraud", "legit"):
-        raise ValueError("status must be one of 'open', 'fraud', 'legit'")
+        raise ValueError(f"status must be one of 'open', 'fraud', 'legit', got {status!r}")
     q = "SELECT * FROM cases"
     params: list = []
     if status:
@@ -69,7 +69,7 @@ def decide(conn: sqlite3.Connection, txn_id: str, verdict: str,
            reviewer: str = "") -> bool:
     """Mark a case as fraud/legit. Returns True if the case existed."""
     if verdict not in ("fraud", "legit"):
-        raise ValueError("verdict must be 'fraud' or 'legit'")
+        raise ValueError(f"verdict must be 'fraud' or 'legit', got {verdict!r}")
     cur = conn.execute(
         "UPDATE cases SET status = ?, reviewed_at = ?, reviewer = ? WHERE txn_id = ?",
         (verdict, datetime.now(timezone.utc).isoformat(), reviewer, txn_id),

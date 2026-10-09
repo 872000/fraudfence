@@ -127,3 +127,10 @@ def test_list_cases_rejects_bad_status(tmp_path):
     with pytest.raises(ValueError, match="open.*fraud.*legit"):
         review_store.list_cases(conn, status="opne")
     conn.close()
+
+
+def test_decide_rejects_bad_verdict(tmp_path):
+    conn = review_store.connect(tmp_path / "cases.db")
+    with pytest.raises(ValueError, match="fraud.*legit.*'maybe'"):
+        review_store.decide(conn, "T00001", "maybe")
+    conn.close()
