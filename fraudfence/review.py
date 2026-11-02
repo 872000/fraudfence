@@ -53,6 +53,10 @@ def list_cases(conn: sqlite3.Connection, status: str | None = None,
                limit: int = 25) -> list[dict]:
     if status is not None and status not in ("open", "fraud", "legit"):
         raise ValueError(f"status must be one of 'open', 'fraud', 'legit', got {status!r}")
+    if limit < 0:
+        # SQLite treats a negative LIMIT as "no limit", so reject it rather
+        # than silently returning the whole queue.
+        raise ValueError(f"limit must be non-negative, got {limit!r}")
     q = "SELECT * FROM cases"
     params: list = []
     if status:
